@@ -43,7 +43,7 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
 
         // подсчет сессий совы
         //«Сова» — если время засыпания было после 23:00, а время пробуждения — после 9:00.
-        int OwlCount = (int) nightList.stream().filter((ss) -> {
+        int owlCount = (int) nightList.stream().filter((ss) -> {
             LocalDate nightLocalDate;
             LocalDateTime nightLocalDateTimeStart, nightLocalDateTimeEnd;
 
@@ -60,7 +60,7 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
 
         // подсчет сессий жаворонка
         //«Жаворонок» — если время засыпания было до 22:00, а время пробуждения до — 7:00.
-        int LarkCount = (int) nightList.stream().filter((ss) -> {
+        int larkCount = (int) nightList.stream().filter((ss) -> {
             LocalDate nightLocalDate;
             LocalDateTime nightLocalDateTimeStart, nightLocalDateTimeEnd;
 
@@ -76,19 +76,19 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
         }).count();
 
         //«Голубь» — во всех остальных случаях.
-        int PigeonCount = nightList.size() - LarkCount - OwlCount;
+        int pigeonCount = nightList.size() - larkCount - owlCount;
 
         int count;
         String description;
 
-        if (OwlCount > LarkCount && OwlCount > PigeonCount) {
-            count = OwlCount;
+        if (owlCount > larkCount && owlCount > pigeonCount) {
+            count = owlCount;
             description = "сова";
-        } else if (LarkCount > OwlCount && LarkCount > PigeonCount) {
-            count = LarkCount;
+        } else if (larkCount > owlCount && larkCount > pigeonCount) {
+            count = larkCount;
             description = "жаворонок";
         } else {
-            count = PigeonCount;
+            count = pigeonCount;
             description = "голубь";
         }
         return new SleepAnalysisResult(String.format("Пользователь относится к типу \"%s\", число сессий", description), count);

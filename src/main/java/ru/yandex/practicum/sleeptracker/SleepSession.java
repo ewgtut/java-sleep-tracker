@@ -8,7 +8,6 @@ public class SleepSession {
     private LocalDateTime endOfSession;
     private SleepQuality sleepQuality;
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm");
-    ;
 
     public SleepSession(String startOfSession, String endOfSession, String sleepQuality) {
         this.startOfSession = LocalDateTime.parse(startOfSession, formatter);

@@ -1,25 +1,25 @@
 package ru.yandex.practicum.sleeptracker;
 
-import java.util.List;
-import java.util.function.Function;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, SleepAnalysisResult> {
-    private final int NIGHT_HOUR_DELIMITER = 12;
-    private final int NIGHT_HOUR_START = 0;
-    private final int NIGHT_HOUR_END = 6;
-    private final int NIGHT_MIN_START = 0;
-    private final int NIGHT_MIN_END = 0;
+    private static final int NIGHT_HOUR_DELIMITER = 12;
+    private static final int NIGHT_HOUR_START = 0;
+    private static final int NIGHT_HOUR_END = 6;
+    private static final int NIGHT_MIN_START = 0;
+    private static final int NIGHT_MIN_END = 0;
 
     //«Сова» — если время засыпания было после 23:00, а время пробуждения — после 9:00.
-    private final int OWL_NIGHT_HOUR_START = 23;
-    private final int OWL_NIGHT_HOUR_END = 9;
+    private static final int OWL_NIGHT_HOUR_START = 23;
+    private static final int OWL_NIGHT_HOUR_END = 9;
     //«Жаворонок» — если время засыпания было до 22:00, а время пробуждения до — 7:00.
-    private final int LARK_NIGHT_HOUR_START = 22;
-    private final int LARK_NIGHT_HOUR_END = 7;
+    private static final int LARK_NIGHT_HOUR_START = 22;
+    private static final int LARK_NIGHT_HOUR_END = 7;
 
 
     @Override
@@ -39,7 +39,7 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
             nightLocalDateTimeEnd = LocalDateTime.of(nightLocalDate, LocalTime.of(NIGHT_HOUR_END, NIGHT_MIN_END));
             return ((nightLocalDateTimeStart.isAfter(ss.getStartOfSession()) && nightLocalDateTimeStart.isBefore(ss.getEndOfSession())) ||
                     (nightLocalDateTimeEnd.isAfter(ss.getStartOfSession()) && nightLocalDateTimeEnd.isBefore(ss.getEndOfSession())));
-        } ).collect(Collectors.toList());
+        }).collect(Collectors.toList());
 
         // подсчет сессий совы
         //«Сова» — если время засыпания было после 23:00, а время пробуждения — после 9:00.
@@ -53,8 +53,8 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
                 nightLocalDate = ss.getStartOfSession().toLocalDate();
             }
             // отметки времени для сравнения
-            LocalDateTime periodStart = LocalDateTime.of(nightLocalDate.minusDays(1),LocalTime.of(OWL_NIGHT_HOUR_START,0));
-            LocalDateTime periodEnd = LocalDateTime.of(nightLocalDate,LocalTime.of(OWL_NIGHT_HOUR_END,0));
+            LocalDateTime periodStart = LocalDateTime.of(nightLocalDate.minusDays(1), LocalTime.of(OWL_NIGHT_HOUR_START, 0));
+            LocalDateTime periodEnd = LocalDateTime.of(nightLocalDate, LocalTime.of(OWL_NIGHT_HOUR_END, 0));
             return ss.getStartOfSession().isAfter(periodStart) && ss.getEndOfSession().isAfter(periodEnd);
         }).count();
 
@@ -70,8 +70,8 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
                 nightLocalDate = ss.getStartOfSession().toLocalDate();
             }
             // отметки времени для сравнения
-            LocalDateTime periodStart = LocalDateTime.of(nightLocalDate.minusDays(1),LocalTime.of(LARK_NIGHT_HOUR_START,0));
-            LocalDateTime periodEnd = LocalDateTime.of(nightLocalDate,LocalTime.of(LARK_NIGHT_HOUR_END,0));
+            LocalDateTime periodStart = LocalDateTime.of(nightLocalDate.minusDays(1), LocalTime.of(LARK_NIGHT_HOUR_START, 0));
+            LocalDateTime periodEnd = LocalDateTime.of(nightLocalDate, LocalTime.of(LARK_NIGHT_HOUR_END, 0));
             return ss.getStartOfSession().isBefore(periodStart) && ss.getEndOfSession().isBefore(periodEnd);
         }).count();
 
@@ -91,6 +91,6 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
             count = PigeonCount;
             description = "голубь";
         }
-        return new SleepAnalysisResult(String.format("Пользователь относится к типу \"%s\", число сессий",description),count);
+        return new SleepAnalysisResult(String.format("Пользователь относится к типу \"%s\", число сессий", description), count);
     }
 }

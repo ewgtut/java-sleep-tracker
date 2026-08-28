@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 
 public class CalculateSleeplessNights implements Function<List<SleepSession>, SleepAnalysisResult> {
     //Также будем считать, что если первая сессия сна в файле началась после 12 дня, потенциальной ночью для сна считается следующая ночь, а если до 12 — то предыдущая.
-    private final int NIGHT_HOUR_DELIMITER = 12;
+    private static final int NIGHT_HOUR_DELIMITER = 12;
     //Бессонной ночью считается ночь, когда не было ни одной сессии сна, пересекающей интервал от 0:00 до 6:00.
-    private final int NIGHT_HOUR_START = 0;
-    private final int NIGHT_HOUR_END = 6;
-    private final int NIGHT_MIN_START = 0;
-    private final int NIGHT_MIN_END = 0;
+    private static final int NIGHT_HOUR_START = 0;
+    private static final int NIGHT_HOUR_END = 6;
+    private static final int NIGHT_MIN_START = 0;
+    private static final int NIGHT_MIN_END = 0;
 
     @Override
     public SleepAnalysisResult apply(List<SleepSession> list) {
@@ -45,7 +45,7 @@ public class CalculateSleeplessNights implements Function<List<SleepSession>, Sl
             nightLocalDateTimeStart = LocalDateTime.of(nightLocalDate, LocalTime.of(NIGHT_HOUR_START, NIGHT_MIN_START));
             nightLocalDateTimeEnd = LocalDateTime.of(nightLocalDate, LocalTime.of(NIGHT_HOUR_END, NIGHT_MIN_END));
             if ((nightLocalDateTimeStart.isAfter(ss.getStartOfSession()) && nightLocalDateTimeStart.isBefore(ss.getEndOfSession())) ||
-                    (nightLocalDateTimeEnd.isAfter(ss.getStartOfSession()) && nightLocalDateTimeEnd.isBefore(ss.getEndOfSession())) ) {
+                    (nightLocalDateTimeEnd.isAfter(ss.getStartOfSession()) && nightLocalDateTimeEnd.isBefore(ss.getEndOfSession()))) {
                 nightMap.put(nightLocalDate, Boolean.TRUE);
             }
         });

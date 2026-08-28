@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.util.List;
 import java.util.function.Function;
 
-public class CalculatorOfAvgOfSessions implements Function<List<SleepSession>,SleepAnalysisResult> {
+public class CalculatorOfAvgOfSessions implements Function<List<SleepSession>, SleepAnalysisResult> {
     @Override
     public SleepAnalysisResult apply(List<SleepSession> list) {
         return new SleepAnalysisResult("Средняя сессия(мин.)", (int) list.stream()

@@ -4,11 +4,12 @@ public enum SleepQuality {
     GOOD,
     NORMAL,
     BAD;
+
     public static SleepQuality getQuality(String qualityString) {
-        switch (qualityString){
-            case "GOOD" :
+        switch (qualityString) {
+            case "GOOD":
                 return SleepQuality.GOOD;
-            case "NORMAL" :
+            case "NORMAL":
                 return SleepQuality.NORMAL;
             case "BAD":
                 return SleepQuality.BAD;

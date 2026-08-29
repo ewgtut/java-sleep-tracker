@@ -25,7 +25,7 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
     @Override
     public SleepAnalysisResult apply(List<SleepSession> list) {
         //список сессий с ночным сном
-        List<SleepSession> nightList = list.stream().filter((ss) -> {
+        List<SleepSession> nightList = list.stream().filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null)).filter((ss) -> {
 
             LocalDate nightLocalDate;
             LocalDateTime nightLocalDateTimeStart, nightLocalDateTimeEnd;
@@ -43,7 +43,7 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
 
         // подсчет сессий совы
         //«Сова» — если время засыпания было после 23:00, а время пробуждения — после 9:00.
-        int owlCount = (int) nightList.stream().filter((ss) -> {
+        int owlCount = (int) nightList.stream().filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null)).filter((ss) -> {
             LocalDate nightLocalDate;
             LocalDateTime nightLocalDateTimeStart, nightLocalDateTimeEnd;
 
@@ -60,7 +60,7 @@ public class CalculatorOfCategoryOfUser implements Function<List<SleepSession>, 
 
         // подсчет сессий жаворонка
         //«Жаворонок» — если время засыпания было до 22:00, а время пробуждения до — 7:00.
-        int larkCount = (int) nightList.stream().filter((ss) -> {
+        int larkCount = (int) nightList.stream().filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null)).filter((ss) -> {
             LocalDate nightLocalDate;
             LocalDateTime nightLocalDateTimeStart, nightLocalDateTimeEnd;
 

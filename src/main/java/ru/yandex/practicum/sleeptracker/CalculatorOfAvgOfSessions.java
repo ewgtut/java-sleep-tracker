@@ -8,6 +8,6 @@ public class CalculatorOfAvgOfSessions implements Function<List<SleepSession>, S
     @Override
     public SleepAnalysisResult apply(List<SleepSession> list) {
         return new SleepAnalysisResult("Средняя сессия(мин.)", (int) list.stream()
-                .map((ss) -> Duration.between(ss.getStartOfSession(), ss.getEndOfSession()).toMinutes()).mapToInt(Long::intValue).average().getAsDouble());
+                .filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null)).map((ss) -> Duration.between(ss.getStartOfSession(), ss.getEndOfSession()).toMinutes()).mapToInt(Long::intValue).average().getAsDouble());
     }
 }

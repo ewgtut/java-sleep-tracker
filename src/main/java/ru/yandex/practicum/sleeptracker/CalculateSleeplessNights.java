@@ -22,7 +22,7 @@ public class CalculateSleeplessNights implements Function<List<SleepSession>, Sl
 
         // ночи можно определять по первому дню
         //определяем ночи
-        Map<LocalDate, Boolean> nightMap = list.stream().map((ss) -> {
+        Map<LocalDate, Boolean> nightMap = list.stream().filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null)).map((ss) -> {
 
             if (ss.getStartOfSession().getHour() > NIGHT_HOUR_DELIMITER) {
                 return ss.getStartOfSession().toLocalDate().plusDays(1);
@@ -32,7 +32,7 @@ public class CalculateSleeplessNights implements Function<List<SleepSession>, Sl
         }).collect(Collectors.toSet()).stream().collect(Collectors.toMap((n) -> n, (n) -> Boolean.FALSE));
 
         // для каждой сессии определяем, был ли это ночной сон, если - да, то отмечаем соотв. ночь (по умлочанию сна не было)
-        list.stream().forEach((ss) -> {
+        list.stream().filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null)).forEach((ss) -> {
 
             LocalDate nightLocalDate;
             LocalDateTime nightLocalDateTimeStart, nightLocalDateTimeEnd;

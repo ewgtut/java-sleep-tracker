@@ -8,6 +8,7 @@ public class CalculatorOfMinSession implements Function<List<SleepSession>, Slee
     @Override
     public SleepAnalysisResult apply(List<SleepSession> list) {
         return new SleepAnalysisResult("Минимальная сессия(мин.)", list.stream()
+                .filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null))
                 .map((ss) -> Duration.between(ss.getStartOfSession(), ss.getEndOfSession()).toMinutes())
                 .min(Long::compare).get().intValue());
     }

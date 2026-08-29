@@ -13,11 +13,11 @@ public class SleepTrackerApp {
 
     public static void main(String[] args) throws IOException {
         // исправить на чтение из кс
-        String filePath = "src\\main\\resources\\sleep_log.txt";
+        //String filePath = "src\\main\\resources\\sleep_log.txt";
+        String filePath = (args.length > 0) ? args[0] : "src\\main\\resources\\sleep_log.txt";
         //Чтение сессий из файла
         File file = new File(filePath);
         try (Stream<String> linesStream = Files.lines(file.toPath())) {
-
             List<SleepSession> sleepList = linesStream.map((line) -> new SleepSession(line.split(";")[0],
                     line.split(";")[1], line.split(";")[2])).collect(Collectors.toList());
             //Список функций для анализ списка сессий сна

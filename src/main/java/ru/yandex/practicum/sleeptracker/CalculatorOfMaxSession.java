@@ -8,6 +8,7 @@ public class CalculatorOfMaxSession implements Function<List<SleepSession>, Slee
     @Override
     public SleepAnalysisResult apply(List<SleepSession> list) {
         return new SleepAnalysisResult("Минимальная сессия(мин.)", list.stream()
+                .filter((ss) -> (ss.getStartOfSession() != null && ss.getEndOfSession() != null))
                 .map((ss) -> Duration.between(ss.getStartOfSession(), ss.getEndOfSession()).toMinutes())
                 .max(Long::compare).get().intValue());
     }
